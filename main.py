@@ -8,27 +8,27 @@ def main() -> None:
         players = json.load(file)
 
     for nickname, player in players.items():
-        race = player["race"]
+        race = player.get("race")
         race_obj, created = Race.objects.get_or_create(
-            name=race["name"],
+            name=race.get("name"),
             defaults={
-                "description": race["description"]
+                "description": race.get("description")
             }
         )
-        for skill in race["skills"]:
+        for skill in race.get("skills"):
             Skill.objects.get_or_create(
-                name=skill["name"],
+                name=skill.get("name"),
                 defaults={
-                    "bonus": skill["bonus"],
+                    "bonus": skill.get("bonus"),
                     "race": race_obj
                 }
             )
-        guild = player["guild"]
+        guild = player.get("guild")
         if guild:
             guild_obj, created = Guild.objects.get_or_create(
-                name=guild["name"],
+                name=guild.get("name"),
                 defaults={
-                    "description": guild["description"]
+                    "description": guild.get("description")
                 }
             )
         else:
@@ -36,10 +36,12 @@ def main() -> None:
         Player.objects.get_or_create(
             nickname=nickname,
             defaults={
-                "email": player["email"],
-                "bio": player["bio"],
+                "email": player.get("email"),
+                "bio": player.get("bio"),
                 "race": race_obj,
-                "guild": guild_obj})
+                "guild": guild_obj
+            }
+        )
 
 
 if __name__ == "__main__":
