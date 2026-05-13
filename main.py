@@ -41,5 +41,6 @@ def main() -> None:
                 "race": race_obj,
                 "guild": guild_obj})
 
+
 if __name__ == "__main__":
     main()
